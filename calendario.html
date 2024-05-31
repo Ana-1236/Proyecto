@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Eventos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body style="font-family: Georgia, 'Times New Roman', Times, serif;" class="bg-gray-100">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 text-white flex flex-col">
+            <div style="background-color: #CD966C;" class="h-16 flex items-center justify-center bg-blue-600">
+                <h1 class="text-2xl font-bold">Payment</h1>
+            </div>
+            <nav class="flex-grow mt-4">
+                <ul class="space-y-2">
+                    <li><a href="pp.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">dashboard</span><span class="ml-3">Página principal</span></a></li>
+                    <li><a href="empleados.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">people</span><span class="ml-3">Empleados</span></a></li>
+                    <li><a href="informes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">assessment</span><span class="ml-3">Informes</span></a></li>
+                    <li><a href="ajustes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">settings</span><span class="ml-3">Ajustes</span></a></li>
+                    <li><a href="calendario.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">calendar_today</span><span class="ml-3">Calendario</span></a></li>
+                    <li><a href="restablecer.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">lock</span><span class="ml-3">Restablecer Contraseña</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <!-- Main content -->
+    <div class="flex-grow p-6">
+        <!-- Top Navbar -->
+        <div class="flex justify-between items-center mb-6">
+          <div class="relative">
+            <input type="text" placeholder="Buscar" class="pl-10 pr-4 py-2 border rounded-lg">
+            <span class="material-icons absolute left-2 top-2 text-gray-400">search</span>
+          </div>
+          <div class="flex items-center space-x-4">
+            <span class="material-icons">notifications</span>
+            <span class="material-icons">account_circle</span>
+          </div>
+        </div>
+        
+        <!-- Main content -->
+        <div class="flex-1 p-6">
+            <div class="container mx-auto mt-10">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="flex justify-between items-center p-4">
+                        <button onclick="prevMonth()" class="bg-gray-300 p-2 rounded">&lt;</button>
+                        <h2 id="currentMonth" class="text-xl font-semibold"></h2>
+                        <button onclick="nextMonth()" class="bg-gray-300 p-2 rounded">&gt;</button>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1">
+                        <!-- Days of the week -->
+                        <div class="text-center font-bold">Sun</div>
+                        <div class="text-center font-bold">Mon</div>
+                        <div class="text-center font-bold">Tue</div>
+                        <div class="text-center font-bold">Wed</div>
+                        <div class="text-center font-bold">Thu</div>
+                        <div class="text-center font-bold">Fri</div>
+                        <div class="text-center font-bold">Sat</div>
+                        <!-- Calendar Days -->
+                        <div id="calendarDays" class="col-span-7 grid grid-cols-7 gap-1">
+                            <!-- Calendar days will be generated here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for adding events -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 class="text-xl mb-4">Agregar un nuevo evento</h3>
+            <label class="block mb-2">Título</label>
+            <input type="text" id="eventTitle" class="border p-2 mb-4 w-full">
+            <label class="block mb-2">Descripción</label>
+            <textarea id="eventDescription" class="border p-2 mb-4 w-full"></textarea>
+            <div class="flex justify-end">
+                <button onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded mr-2">Cancelar</button>
+                <button onclick="saveEvent()" class="bg-blue-500 text-white px-4 py-2 rounded">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for event actions -->
+    <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h3 class="text-xl mb-4">Evento</h3>
+            <p id="eventTitleDisplay" class="text-lg font-semibold"></p>
+            <p id="eventDescriptionDisplay" class="mb-4"></p>
+            <div class="flex justify-end">
+                <button onclick="deleteEvent()" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentElement;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+    
+        function openModal(element) {
+            currentElement = element;
+            document.getElementById('modal').classList.remove('hidden');
+        }
+    
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+    
+        function saveEvent() {
+            const title = document.getElementById('eventTitle').value;
+            const description = document.getElementById('eventDescription').value;
+    
+            if (title) {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('bg-blue-500', 'text-white', 'text-xs', 'rounded', 'px-1', 'absolute', 'top-8', 'left-1', 'w-full');
+                eventDiv.textContent = title;
+                eventDiv.onclick = function(event) {
+                    event.stopPropagation();
+                    openEventModal(this);
+                };
+    
+                currentElement.appendChild(eventDiv);
+            }
+    
+            closeModal();
+        }
+    
+        function openEventModal(eventElement) {
+            const title = eventElement.textContent;
+            document.getElementById('eventTitleDisplay').textContent = title;
+            document.getElementById('eventModal').classList.remove('hidden');
+            currentElement = eventElement;
+        }
+    
+        function deleteEvent() {
+            currentElement.remove();
+            document.getElementById('eventModal').classList.add('hidden');
+        }
+    
+        function updateCalendar() {
+            const calendarDays = document.getElementById('calendarDays');
+            calendarDays.innerHTML = '';
+            const currentMonthName = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
+            document.getElementById('currentMonth').textContent = `${currentMonthName} ${currentYear}`;
+            
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+            const lastDateOfMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const prevLastDate = new Date(currentYear, currentMonth, 0).getDate();
+    
+            // Previous month's days
+            for (let i = firstDayOfMonth; i > 0; i--) {
+                const day = prevLastDate - i + 1;
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('relative', 'cursor-pointer', 'bg-gray-200', 'p-2');
+                dayDiv.textContent = day;
+                calendarDays.appendChild(dayDiv);
+            }
+    
+            // Current month's days
+            for (let i = 1; i <= lastDateOfMonth; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('relative', 'cursor-pointer', 'p-2');
+                dayDiv.textContent = i;
+                dayDiv.onclick = function() { openModal(this) };
+                calendarDays.appendChild(dayDiv);
+            }
+    
+            // Next month's days
+            const remainingDays = 42 - (firstDayOfMonth + lastDateOfMonth);
+            for (let i = 1; i <= remainingDays; i++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.classList.add('relative', 'cursor-pointer', 'bg-gray-200', 'p-2');
+                dayDiv.textContent = i;
+                calendarDays.appendChild(dayDiv);
+            }
+        }
+    
+        function prevMonth() {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            updateCalendar();
+        }
+    
+        function nextMonth() {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            updateCalendar();
+        }
+    
+        // Initialize the calendar
+        document.addEventListener('DOMContentLoaded', updateCalendar);
+    </script>
+</body>
+</html>

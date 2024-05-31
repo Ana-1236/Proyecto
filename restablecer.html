@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body style="font-family: Georgia, 'Times New Roman', Times, serif;" class="bg-gray-100 ">
+    <div class="flex min-h-screen">
+        <!-- Sidebar -->
+        <div class="w-64 bg-gray-800 text-white flex flex-col">
+            <div style="background-color: #CD966C;" class="h-16 flex items-center justify-center bg-blue-600">
+                <h1 class="text-2xl font-bold">Payment</h1>
+            </div>
+            <nav class="flex-grow mt-4">
+                <ul class="space-y-2">
+                    <li><a href="pp.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">dashboard</span><span class="ml-3">Página principal</span></a></li>
+                    <li><a href="empleados.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">people</span><span class="ml-3">Empleados</span></a></li>
+                    <li><a href="informes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">assessment</span><span class="ml-3">Informes</span></a></li>
+                    <li><a href="ajustes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">settings</span><span class="ml-3">Ajustes</span></a></li>
+                    <li><a href="calendario.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">calendar_today</span><span class="ml-3">Calendario</span></a></li>
+                    <li><a href="restablecer.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">lock</span><span class="ml-3">Restablecer Contraseña</span></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-grow p-6">
+            <!-- Top Navbar -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="relative">
+                    <input type="text" placeholder="Buscar" class="pl-10 pr-4 py-2 border rounded-lg">
+                    <span class="material-icons absolute left-2 top-2 text-gray-400">search</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="material-icons">notifications</span>
+                    <span class="material-icons">account_circle</span>
+                </div>
+            </div>
+            <!-- Restablecer Contraseña Section -->
+            <div id="restablecer" class="mt-8 bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold mb-4">Restablecer Contraseña</h2>
+                <form action="#" method="POST" class="space-y-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                        <input type="email" id="email" name="email"
+                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Nueva Contraseña</label>
+                        <input type="password" id="password" name="password"
+                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div>
+                        <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirmar
+                            Contraseña</label>
+                        <input type="password" id="confirm_password" name="confirm_password"
+                            class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <button type="submit" style="background-color: #CD966C;"
+                        class="bg-blue-600 text-black py-2 px-4 rounded-md hover:bg-blue-700">Restablecer</button>
+                </form>
+            </div>
+        </div>
+
+</html>

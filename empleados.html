@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body style="font-family: Georgia, 'Times New Roman', Times, serif;" class="bg-gray-100 ">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white flex flex-col">
+        <div style="background-color: #CD966C;" class="h-16 flex items-center justify-center bg-blue-600">
+            <h1 class="text-2xl font-bold">Payment</h1>
+        </div>
+        <nav class="flex-grow mt-4">
+            <ul class="space-y-2">
+                <li><a href="pp.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">dashboard</span><span class="ml-3">Página principal</span></a></li>
+                <li><a href="empleados.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">people</span><span class="ml-3">Empleados</span></a></li>
+                <li><a href="informes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">assessment</span><span class="ml-3">Informes</span></a></li>
+                <li><a href="ajustes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">settings</span><span class="ml-3">Ajustes</span></a></li>
+                <li><a href="calendario.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">calendar_today</span><span class="ml-3">Calendario</span></a></li>
+                <li><a href="restablecer.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">lock</span><span class="ml-3">Restablecer Contraseña</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow p-6">
+        <!-- Top Navbar -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="relative">
+                <input type="text" placeholder="Buscar" class="pl-10 pr-4 py-2 border rounded-lg">
+                <span class="material-icons absolute left-2 top-2 text-gray-400">search</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="material-icons">notifications</span>
+                <span class="material-icons">account_circle</span>
+            </div>
+        </div>
+      <div id="empleados" class="space-y-8">
+        <div  class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold">Empleados</h2>
+          <div>
+            <button style="background-color: #CD966C;" onclick="openModal('addUserModal')"
+              class="bg-blue-600 text-black py-2 px-4 rounded-md hover:bg-blue-700 mr-2">Añadir empleado</button>
+            <button  onclick="exportTableToCSV('users.csv')"
+              class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700">Exportar</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto bg-white rounded-lg shadow">
+          <table id="userTable" class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cargo</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Inicio de contrato
+                </th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salario</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fin de contrato</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contacto</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aciones</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <!-- Sample Row -->
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">empleado</td>
+                <td class="px-6 py-4 whitespace-nowrap">cargo</td>
+                <td class="px-6 py-4 whitespace-nowrap">01/01/2022</td>
+                <td class="px-6 py-4 whitespace-nowrap">$90,000</td>
+                <td class="px-6 py-4 whitespace-nowrap">N/A</td>
+                <td class="px-6 py-4 whitespace-nowrap">emple@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-green-600">Activo</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <button style="background-color: #CD966C;" onclick="editUser(this)"
+                    class="bg-blue-600 text-black py-2 px-4 rounded-md hover:bg-blue-700 mr-2">Editar empleado</button>
+                  <button onclick="deleteUser(this)"
+                    class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Add/Edit User Modal -->
+      <div id="addUserModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+          <div
+            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <h3 id="modalTitle" class="text-lg leading-6 font-medium text-gray-900 mb-4">Add New User</h3>
+            <form id="addUserForm" class="space-y-4">
+              <div>
+                <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                <input type="text" id="first_name" name="first_name"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
+                <input type="text" id="last_name" name="last_name"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="position" class="block text-sm font-medium text-gray-700">Position</label>
+                <input type="text" id="position" name="position"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="start_date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                <input type="date" id="start_date" name="start_date"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="salary" class="block text-sm font-medium text-gray-700">Salary</label>
+                <input type="text" id="salary" name="salary"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="end_date" class="block text-sm font-medium text-gray-700">End Date</label>
+                <input type="date" id="end_date" name="end_date"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+              <div>
+                <label for="contact" class="block text-sm font-medium text-gray-700">Contact</label>
+                <input type="text" id="contact" name="contact"
+                  class="mt-1 block w-full p-2 border border-gray-300 rounded-md">
+              </div>
+            </form>
+            <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">
+              <button type="button" id="saveButton" onclick="saveUser()"
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 sm:ml-3 sm:w-auto sm:text-sm">Save</button>
+              <button type="button" onclick="closeModal('addUserModal')"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delete User Modal -->
+      <div id="deleteUserModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+          <div
+            class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mb-4">Delete User</h3>
+            <p class="text-sm text-gray-500 mb-4">Are you sure you want to delete this user? This action cannot be
+              undone.</p>
+            <div class="mt-5 sm:mt-6 sm:flex sm:flex-row-reverse">
+              <button type="button" onclick="confirmDeleteUser()"
+                class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 sm:ml-3 sm:w-auto sm:text-sm">Yes,
+                I'm sure</button>
+              <button type="button" onclick="closeModal('deleteUserModal')"
+                class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm">No,
+                cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        let currentUserRow = null;
+
+        function openModal(modalId, row = null) {
+          currentUserRow = row;
+          document.getElementById(modalId).classList.remove('hidden');
+
+          if (modalId === 'addUserModal') {
+            if (row) {
+              document.getElementById('modalTitle').innerText = 'Edit User';
+              document.getElementById('first_name').value = row.children[0].innerText.split(' ')[0];
+              document.getElementById('last_name').value = row.children[0].innerText.split(' ')[1];
+              document.getElementById('email').value = row.children[5].innerText;
+              document.getElementById('position').value = row.children[1].innerText;
+              document.getElementById('start_date').value = row.children[2].innerText;
+              document.getElementById('salary').value = row.children[3].innerText.replace('$', '');
+              document.getElementById('end_date').value = row.children[4].innerText;
+              document.getElementById('contact').value = row.children[5].innerText;
+            } else {
+              document.getElementById('modalTitle').innerText = 'Add New User';
+              document.getElementById('addUserForm').reset();
+            }
+          }
+        }
+
+        function closeModal(modalId) {
+          document.getElementById(modalId).classList.add('hidden');
+        }
+
+        function saveUser() {
+          const firstName = document.getElementById('first_name').value;
+          const lastName = document.getElementById('last_name').value;
+          const email = document.getElementById('email').value;
+          const position = document.getElementById('position').value;
+          const startDate = document.getElementById('start_date').value;
+          const salary = document.getElementById('salary').value;
+          const endDate = document.getElementById('end_date').value;
+          const contact = document.getElementById('contact').value;
+
+          if (currentUserRow) {
+            currentUserRow.children[0].innerText = `${firstName} ${lastName}`;
+            currentUserRow.children[1].innerText = position;
+            currentUserRow.children[2].innerText = startDate;
+            currentUserRow.children[3].innerText = `$${salary}`;
+            currentUserRow.children[4].innerText = endDate;
+            currentUserRow.children[5].innerText = contact;
+          } else {
+            const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+            const newRow = userTable.insertRow();
+            newRow.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">${firstName} ${lastName}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${position}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${startDate}</td>
+                <td class="px-6 py-4 whitespace-nowrap">$${salary}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${endDate}</td>
+                <td class="px-6 py-4 whitespace-nowrap">${contact}</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="text-green-600">Active</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <button onclick="editUser(this)" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 mr-2">Edit user</button>
+                  <button onclick="openModal('deleteUserModal', this.parentNode.parentNode)" class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700">Delete</button>
+                </td>
+              `;
+          }
+
+          closeModal('addUserModal');
+        }
+
+        function editUser(button) {
+          openModal('addUserModal', button.parentNode.parentNode);
+        }
+
+        function deleteUser(button) {
+          openModal('deleteUserModal', button.parentNode.parentNode);
+        }
+
+        function confirmDeleteUser() {
+          currentUserRow.remove();
+          closeModal('deleteUserModal');
+        }
+
+        function exportTableToCSV(filename) {
+          const csv = [];
+          const rows = document.querySelectorAll('table tr');
+          for (let i = 0; i < rows.length; i++) {
+            const row = [], cols = rows[i].querySelectorAll('td, th');
+            for (let j = 0; j < cols.length; j++) {
+              row.push(cols[j].innerText);
+            }
+            csv.push(row.join(','));
+          }
+          const csvFile = new Blob([csv.join('\n')], { type: 'text/csv' });
+          const downloadLink = document.createElement('a');
+          downloadLink.download = filename;
+          downloadLink.href = window.URL.createObjectURL(csvFile);
+          downloadLink.style.display = 'none';
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+        }
+      </script>
+</body>
+</body>
+
+</html>

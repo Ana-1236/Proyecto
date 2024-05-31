@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Nómina</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body style="font-family: Georgia, 'Times New Roman', Times, serif;" class="bg-gray-100 ">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="w-64 bg-gray-800 text-white flex flex-col">
+        <div style="background-color: #CD966C;" class="h-16 flex items-center justify-center bg-blue-600">
+            <h1 class="text-2xl font-bold">Payment</h1>
+        </div>
+        <nav class="flex-grow mt-4">
+            <ul class="space-y-2">
+                <li><a href="pp.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">dashboard</span><span class="ml-3">Página principal</span></a></li>
+                <li><a href="empleados.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">people</span><span class="ml-3">Empleados</span></a></li>
+                <li><a href="informes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">assessment</span><span class="ml-3">Informes</span></a></li>
+                <li><a href="ajustes.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">settings</span><span class="ml-3">Ajustes</span></a></li>
+                <li><a href="calendario.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">calendar_today</span><span class="ml-3">Calendario</span></a></li>
+                <li><a href="restablecer.html" class="flex items-center px-4 py-2 hover:bg-gray-700"><span class="material-icons">lock</span><span class="ml-3">Restablecer Contraseña</span></a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-grow p-6">
+        <!-- Top Navbar -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="relative">
+                <input type="text" placeholder="Buscar" class="pl-10 pr-4 py-2 border rounded-lg">
+                <span class="material-icons absolute left-2 top-2 text-gray-400">search</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <span class="material-icons">notifications</span>
+                <span class="material-icons">account_circle</span>
+            </div>
+        </div>
+
+  <div class="container mx-auto px-4 py-2">
+    
+    <!-- Dashboard Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Card 1: Semanas Laboradas -->
+      <div class="bg-white p-4 rounded-lg shadow flex items-center cursor-pointer" onclick="openModal('Semanas Laboradas', '1,086', 'semanasLaboradas')">
+        <div class="bg-gray-100 p-3 rounded-full">
+          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-6 10h.01M12 20h.01M12 6h.01M6 20h.01M6 6h.01M18 20h.01M18 6h.01M3 10h18M3 14h18M4 6h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z"></path></svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-bold text-blue-600" id="semanasLaboradas">1,086</h2>
+          <p class="text-gray-600">SEMANAS LABORADAS</p>
+        </div>
+      </div>
+      <!-- Card 2: Empleados Activos -->
+      <div class="bg-white p-4 rounded-lg shadow flex items-center cursor-pointer" onclick="openModal('Empleados Activos', '60', 'empleadosActivos')">
+        <div class="bg-gray-100 p-3 rounded-full">
+          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M12 7a4 4 0 110-8 4 4 0 010 8zM4 21h16a2 2 0 002-2v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2a2 2 0 002 2z"></path></svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-bold text-blue-600" id="empleadosActivos">60</h2>
+          <p class="text-gray-600">EMPLEADOS ACTIVOS</p>
+        </div>
+      </div>
+      <!-- Card 3: Salarios Pagados -->
+      <div class="bg-white p-4 rounded-lg shadow flex items-center cursor-pointer" onclick="openModal('Salarios Pagados', '$250,000', 'salariosPagados')">
+        <div class="bg-gray-100 p-3 rounded-full">
+          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c3.866 0 7-2.686 7-6m-7 6v13m-6 0a2 2 0 012-2h10a2 2 0 012 2M6 6h.01M18 6h.01"></path></svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-bold text-blue-600" id="salariosPagados">$250,000</h2>
+          <p class="text-gray-600">SALARIOS PAGADOS</p>
+        </div>
+      </div>
+      <!-- Card 4: Próximos Pagos -->
+      <div class="bg-white p-4 rounded-lg shadow flex items-center cursor-pointer" onclick="openModal('Próximos Pagos', '15', 'proximosPagos')">
+        <div class="bg-gray-100 p-3 rounded-full">
+          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12v8m4-12v12m4-10v10m4-14v14m-12-8v8m8-8v8m-12-8v8m8-8v8m8-8v8M4 12v8"></path></svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-bold text-blue-600" id="proximosPagos">15</h2>
+          <p class="text-gray-600">PRÓXIMOS PAGOS</p>
+        </div>
+      </div>
+      <!-- Card 5: Días de Vacaciones -->
+      <div class="bg-white p-4 rounded-lg shadow flex items-center cursor-pointer" onclick="openModal('Días de Vacaciones', '20', 'diasVacaciones')">
+        <div class="bg-gray-100 p-3 rounded-full">
+          <svg class="h-8 w-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.866 0-7-2.686-7-6m7 6v13m0-20C8.134 0 5 2.686 5 6m7-6c3.866 0 7 2.686 7 6m-7-6v20"></path></svg>
+        </div>
+        <div class="ml-4">
+          <h2 class="text-xl font-bold text-blue-600" id="diasVacaciones">20</h2>
+          <p class="text-gray-600">DÍAS DE VACACIONES</p>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!-- Graphs Section -->
+   <div class="bg-white p-6 rounded-lg shadow mb-6">
+    <h2 class="text-2xl font-bold text-gray-700 mb-4">Gráficos</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div>
+        <canvas id="salaryChart"></canvas>
+      </div>
+      <div>
+        <canvas id="employeeChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notifications Section -->
+  <div class="bg-white p-6 rounded-lg shadow">
+    <h2 class="text-2xl font-bold text-gray-700 mb-4">Notificaciones</h2>
+    <ul class="list-disc pl-5">
+      <li class="text-gray-700">Pago pendiente para el empleado #1</li>
+      <li class="text-gray-700">Aprobación de horas extras necesaria para el empleado #2</li>
+      <li class="text-gray-700">Vacaciones programadas para el próximo mes</li>
+    </ul>
+  </div>
+</div>
+<!-- Modal -->
+<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 id="modalTitle" class="text-2xl font-bold mb-4"></h2>
+    <input type="text" id="modalInput" class="border border-gray-300 p-2 w-full mb-4">
+    <div class="flex justify-end">
+      <button class="bg-red-500 text-white px-4 py-2 rounded mr-2" onclick="closeModal()">Cancelar</button>
+      <button class="bg-blue-500 text-white px-4 py-2 rounded" onclick="saveChanges()">Guardar</button>
+    </div>
+  </div>
+</div>
+<script>
+  // Configuración del gráfico de salarios
+  const salaryCtx = document.getElementById('salaryChart').getContext('2d');
+  const salaryChart = new Chart(salaryCtx, {
+    type: 'line',
+    data: {
+      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+      datasets: [{
+        label: 'Salarios Pagados',
+        data: [50000, 60000, 70000, 80000, 75000, 90000],
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        fill: false
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Configuración del gráfico de empleados
+  const employeeCtx = document.getElementById('employeeChart').getContext('2d');
+  const employeeChart = new Chart(employeeCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'],
+      datasets: [{
+        label: 'Nuevos Empleados',
+        data: [5, 10, 8, 15, 12, 20],
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+<script>
+  
+  let currentCardId = '';
+
+  function openModal(title, currentValue, cardId) {
+    document.getElementById('modalTitle').textContent = title;
+    document.getElementById('modalInput').value = currentValue;
+    document.getElementById('editModal').classList.remove('hidden');
+    currentCardId = cardId;
+  }
+
+  function closeModal() {
+    document.getElementById('editModal').classList.add('hidden');
+  }
+
+  function saveChanges() {
+    const newValue = document.getElementById('modalInput').value;
+    document.getElementById(currentCardId).textContent = newValue;
+    closeModal();
+  }
+
+  
+  
+</script>
+</body>
+</html>
