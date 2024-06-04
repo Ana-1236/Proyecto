@@ -141,6 +141,10 @@
                 </form>
                 <button style="background-color: #CD966C;" class="bg-blue-600 text-black py-2 px-4 rounded-md hover:bg-blue-700 mt-4">Guardar</button>
             </div>
+           
+            <button id="logout-button" class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 mt-2 button-icon">
+                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </button>
         </div>
         <script>
             document.getElementById('upload-button').addEventListener('click', function() {
@@ -162,6 +166,9 @@
                 document.getElementById('profile-picture').src = 'https://via.placeholder.com/80';
                 document.getElementById('file-input').value = '';
             });
+            document.getElementById('logout-button').addEventListener('click', function() {
+            window.location.href = 'iniciar.html';
+        });
         </script>
 </body>
 
