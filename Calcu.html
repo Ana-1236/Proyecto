@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Nómina</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="Logocircular.png" rel="icon">
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <div class="flex justify-between mb-4">
+            <button id="fullTimeBtn" class="px-4 py-2 bg-blue-500 text-white rounded">Trabajador tiempo completo</button>
+
+            <button id="partTimeBtn" class="px-4 py-2 bg-gray-300 text-black rounded">Trabajador por días</button>
+        </div>
+        
+        <!-- Formulario para Trabajador tiempo completo -->
+        <form id="fullTimeForm" class="space-y-4">
+            <div>
+                <label class="block text-gray-700">1. FECHA DE INICIO DEL PERIODO A LIQUIDAR</label>
+                <input type="date" id="fullTimeStartDate" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">2. FECHA DE FINAL DEL PERIODO A LIQUIDAR</label>
+                <input type="date" id="fullTimeEndDate" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">3. INGRESE SU SALARIO MENSUAL</label>
+                <input type="number" id="fullTimeSalary" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">4. ¿TIENE DERECHO A UN AUXILIO DE TRANSPORTE?</label>
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="auxilio" value="si" class="mr-2" required>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="auxilio" value="no" class="mr-2" required>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-gray-700">5. Seleccione la clase de riesgos laborales</label>
+                <select id="fullTimeRiskClass" class="w-full px-4 py-2 border rounded" required>
+                    <option value="1">Clase 1</option>
+                    <option value="2">Clase 2</option>
+                    <option value="3">Clase 3</option>
+                    <option value="4">Clase 4</option>
+                    <option value="5">Clase 5</option>
+                </select>
+            </div>
+            <div class="flex justify-between mt-6">
+                <button type="button" class="px-4 py-2" style="background-color: #CD966C; color: white;" onclick="calculateFullTime()">Liquidación para Empleado</button>
+            </div>
+            <div class="flex justify-center mt-6">
+                <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded" ><a href="Iniciocalcu.html">Volver</a></button>
+            </div>
+
+        </form>
+        
+        <!-- Formulario para Trabajador por días -->
+        <form id="partTimeForm" class="space-y-4 hidden">
+            <div>
+                <label class="block text-gray-700">1. FECHA DE INICIO DEL PERIODO A LIQUIDAR</label>
+                <input type="date" id="partTimeStartDate" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">2. FECHA DE FINAL DEL PERIODO A LIQUIDAR</label>
+                <input type="date" id="partTimeEndDate" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">3. INGRESE SU SALARIO DIARIO</label>
+                <input type="number" id="partTimeDailySalary" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">4. DIAS LABORADOS SEMANA</label>
+                <input type="number" id="partTimeDaysWorked" class="w-full px-4 py-2 border rounded" required>
+            </div>
+            <div>
+                <label class="block text-gray-700">5. ¿TIENE DERECHO A UN AUXILIO DE TRANSPORTE DIARIO?</label>
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="auxilio_diario" value="si" class="mr-2" required>
+                        <span>SI</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="auxilio_diario" value="no" class="mr-2" required>
+                        <span>NO</span>
+                    </label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-gray-700">6. Seleccione la clase de riesgos laborales</label>
+                <select id="partTimeRiskClass" class="w-full px-4 py-2 border rounded" required>
+                    <option value="1">Clase 1</option>
+                    <option value="2">Clase 2</option>
+                    <option value="3">Clase 3</option>
+                    <option value="4">Clase 4</option>
+                    <option value="5">Clase 5</option>
+                </select>
+            </div>
+            <div class="flex justify-between mt-6">
+                <button type="button" class="px-4 py-2" style="background-color: #CD966C; color: white;" onclick="calculatePartTime()">Liquidación para Empleado</button>
+            </div>
+            <div class="flex justify-center mt-6">
+                <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded" ><a href="Iniciocalcu.html">Volver</a></button>            
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('fullTimeBtn').addEventListener('click', function() {
+            document.getElementById('fullTimeForm').classList.remove('hidden');
+            document.getElementById('partTimeForm').classList.add('hidden');
+            this.classList.add('bg-blue-500', 'text-white');
+            document.getElementById('partTimeBtn').classList.remove('bg-blue-500', 'text-white');
+            document.getElementById('partTimeBtn').classList.add('bg-gray-300', 'text-black');
+        });
+
+        document.getElementById('partTimeBtn').addEventListener('click', function() {
+            document.getElementById('partTimeForm').classList.remove('hidden');
+            document.getElementById('fullTimeForm').classList.add('hidden');
+            this.classList.add('bg-blue-500', 'text-white');
+            document.getElementById('fullTimeBtn').classList.remove('bg-blue-500', 'text-white');
+            document.getElementById('fullTimeBtn').classList.add('bg-gray-300', 'text-black');
+        });
+
+        function calculateFullTime() {
+            const startDate = document.getElementById('fullTimeStartDate').value;
+            const endDate = document.getElementById('fullTimeEndDate').value;
+            const salary = parseFloat(document.getElementById('fullTimeSalary').value);
+            const riskClass = document.getElementById('fullTimeRiskClass').value;
+            const auxilio = document.querySelector('input[name="auxilio"]:checked').value;
+
+            if (!startDate || !endDate || isNaN(salary) || !riskClass || !auxilio) {
+                alert("Todos los campos son obligatorios");
+                return;
+            }
+
+            const daysInMonth = new Date(startDate).getDate();
+            const dailySalary = salary / daysInMonth;
+            const auxilioTransporte = auxilio === 'si' ? 106454 : 0; 
+            const total = salary + auxilioTransporte;
+
+            alert(`Cálculo realizado para Trabajador tiempo completo:\nSalario Diario: ${dailySalary}\nAuxilio Transporte: ${auxilioTransporte}\nTotal: ${total}`);
+        }
+
+        function calculatePartTime() {
+            const startDate = document.getElementById('partTimeStartDate').value;
+            const endDate = document.getElementById('partTimeEndDate').value;
+            const dailySalary = parseFloat(document.getElementById('partTimeDailySalary').value);
+            const daysWorked = parseInt(document.getElementById('partTimeDaysWorked').value);
+            const riskClass = document.getElementById('partTimeRiskClass').value;
+            const auxilioDiario = document.querySelector('input[name="auxilio_diario"]:checked').value;
+
+            if (!startDate || !endDate || isNaN(dailySalary) || isNaN(daysWorked) || !riskClass || !auxilioDiario) {
+                alert("Todos los campos son obligatorios");
+                return;
+            }
+
+            const auxilioTransporteDiario = auxilioDiario === 'si' ? 3548.5 : 0; 
+
+            alert(`Cálculo realizado para Trabajador por días:\nAuxilio Transporte Diario: ${auxilioTransporteDiario}\nTotal: ${total}`);
+        }
+    </script>
+</body>
+</html>
